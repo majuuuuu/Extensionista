@@ -1,0 +1,42 @@
+table DIM_PARTIDO
+	lineageTag: 4a7d1583-b9f6-4511-aa92-217f31789b95
+
+	column idPartido
+		dataType: int64
+		formatString: 0
+		lineageTag: cd49b324-b614-4fca-977b-67f5819c90bd
+		summarizeBy: none
+		sourceColumn: idPartido
+
+		annotation SummarizationSetBy = Automatic
+
+	column siglaPartido
+		dataType: string
+		lineageTag: ee70c632-9c6b-47eb-bd33-e77efa24c9f7
+		summarizeBy: none
+		sourceColumn: siglaPartido
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_PARTIDO = m
+		mode: import
+		source =
+				let
+				    Fonte = Json.Document(File.Contents("C:\Users\MariaJuliaEscobarCor\Downloads\CPA\Untitled Folder 1\deputados_detalhados.json")),
+				    #"Convertido para Tabela" = Table.FromList(Fonte, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Column1 Expandido" = Table.ExpandRecordColumn(#"Convertido para Tabela", "Column1", {"id", "uri", "nomeCivil", "ultimoStatus", "cpf", "sexo", "urlWebsite", "redeSocial", "dataNascimento", "dataFalecimento", "ufNascimento", "municipioNascimento", "escolaridade"}, {"id", "uri", "nomeCivil", "ultimoStatus", "cpf", "sexo", "urlWebsite", "redeSocial", "dataNascimento", "dataFalecimento", "ufNascimento", "municipioNascimento", "escolaridade"}),
+				    #"ultimoStatus Expandido" = Table.ExpandRecordColumn(#"Column1 Expandido", "ultimoStatus", {"id", "uri", "nome", "siglaPartido", "uriPartido", "siglaUf", "idLegislatura", "urlFoto", "email", "data", "nomeEleitoral", "gabinete", "situacao", "condicaoEleitoral", "descricaoStatus"}, {"ultimoStatus.id", "ultimoStatus.uri", "ultimoStatus.nome", "ultimoStatus.siglaPartido", "ultimoStatus.uriPartido", "ultimoStatus.siglaUf", "ultimoStatus.idLegislatura", "ultimoStatus.urlFoto", "ultimoStatus.email", "ultimoStatus.data", "ultimoStatus.nomeEleitoral", "ultimoStatus.gabinete", "ultimoStatus.situacao", "ultimoStatus.condicaoEleitoral", "ultimoStatus.descricaoStatus"}),
+				    #"ultimoStatus.gabinete Expandido" = Table.ExpandRecordColumn(#"ultimoStatus Expandido", "ultimoStatus.gabinete", {"nome", "predio", "sala", "andar", "telefone", "email"}, {"ultimoStatus.gabinete.nome", "ultimoStatus.gabinete.predio", "ultimoStatus.gabinete.sala", "ultimoStatus.gabinete.andar", "ultimoStatus.gabinete.telefone", "ultimoStatus.gabinete.email"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"ultimoStatus.gabinete Expandido",{{"id", Int64.Type}, {"uri", type text}, {"nomeCivil", type text}, {"ultimoStatus.id", Int64.Type}, {"ultimoStatus.uri", type text}, {"ultimoStatus.nome", type text}, {"ultimoStatus.siglaPartido", type text}, {"ultimoStatus.uriPartido", type any}, {"ultimoStatus.siglaUf", type text}, {"ultimoStatus.idLegislatura", Int64.Type}, {"ultimoStatus.urlFoto", type text}, {"ultimoStatus.email", type any}, {"ultimoStatus.data", type date}, {"ultimoStatus.nomeEleitoral", type text}, {"ultimoStatus.gabinete.nome", Int64.Type}, {"ultimoStatus.gabinete.predio", type text}, {"ultimoStatus.gabinete.sala", Int64.Type}, {"ultimoStatus.gabinete.andar", Int64.Type}, {"ultimoStatus.gabinete.telefone", type text}, {"ultimoStatus.gabinete.email", type text}, {"ultimoStatus.situacao", type text}, {"ultimoStatus.condicaoEleitoral", type text}, {"ultimoStatus.descricaoStatus", type any}, {"cpf", Int64.Type}, {"sexo", type text}, {"urlWebsite", type text}, {"redeSocial", type any}, {"dataNascimento", type date}, {"dataFalecimento", type any}, {"ufNascimento", type text}, {"municipioNascimento", type text}, {"escolaridade", type text}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado",{"uri", "nomeCivil", "ultimoStatus.id", "id", "ultimoStatus.uri", "ultimoStatus.nome", "ultimoStatus.uriPartido", "ultimoStatus.siglaUf", "ultimoStatus.idLegislatura", "ultimoStatus.urlFoto", "ultimoStatus.email", "ultimoStatus.data", "ultimoStatus.nomeEleitoral", "ultimoStatus.gabinete.nome", "ultimoStatus.gabinete.predio", "ultimoStatus.gabinete.sala", "ultimoStatus.gabinete.andar", "ultimoStatus.gabinete.telefone", "ultimoStatus.gabinete.email", "ultimoStatus.situacao", "ultimoStatus.condicaoEleitoral", "ultimoStatus.descricaoStatus", "cpf", "sexo", "urlWebsite", "redeSocial", "dataNascimento", "dataFalecimento", "ufNascimento", "municipioNascimento", "escolaridade"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Colunas Removidas"),
+				    #"Índice Adicionado" = Table.AddIndexColumn(#"Duplicatas Removidas", "Índice", 0, 1, Int64.Type),
+				    #"Colunas Reordenadas" = Table.ReorderColumns(#"Índice Adicionado",{"Índice", "ultimoStatus.siglaPartido"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Colunas Reordenadas",{{"ultimoStatus.siglaPartido", "siglaPartido"}, {"Índice", "idPartido"}})
+				in
+				    #"Colunas Renomeadas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

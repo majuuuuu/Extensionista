@@ -1,0 +1,56 @@
+table DIM_TIPO_PROPOSICAO
+	lineageTag: 0bdc5799-b5af-4a01-bda3-9cea929d20b6
+
+	column siglaTipo
+		dataType: string
+		lineageTag: f5026a11-c8d3-47f3-bbc5-446b62bfaf8a
+		summarizeBy: none
+		sourceColumn: siglaTipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column descricaoTipo
+		dataType: string
+		lineageTag: b2dc298d-f396-4e5f-9a6b-677f56c7804a
+		summarizeBy: none
+		sourceColumn: descricaoTipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column idTipo
+		dataType: int64
+		formatString: 0
+		lineageTag: 1f11cbad-53b0-4f94-bca6-0e666c196260
+		summarizeBy: none
+		sourceColumn: idTipo
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_TIPO_PROPOSICAO = m
+		mode: import
+		source =
+				let
+				    Fonte = Json.Document(File.Contents("C:\Users\MariaJuliaEscobarCor\Downloads\proposicoes_detalhadas_UNIFICADAS.json")),
+				    #"Convertido para Tabela" = Table.FromList(Fonte, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Column1 Expandido" = Table.ExpandRecordColumn(#"Convertido para Tabela", "Column1", {"id_proposicao", "detalhes", "autores", "tramitacoes"}, {"id_proposicao", "detalhes", "autores", "tramitacoes"}),
+				    #"detalhes Expandido" = Table.ExpandRecordColumn(#"Column1 Expandido", "detalhes", {"id", "uri", "siglaTipo", "codTipo", "numero", "ano", "ementa", "dataApresentacao", "uriOrgaoNumerador", "statusProposicao", "uriAutores", "descricaoTipo", "ementaDetalhada", "keywords", "uriPropPrincipal", "uriPropAnterior", "uriPropPosterior", "urlInteiroTeor", "urnFinal", "texto", "justificativa"}, {"detalhes.id", "detalhes.uri", "detalhes.siglaTipo", "detalhes.codTipo", "detalhes.numero", "detalhes.ano", "detalhes.ementa", "detalhes.dataApresentacao", "detalhes.uriOrgaoNumerador", "detalhes.statusProposicao", "detalhes.uriAutores", "detalhes.descricaoTipo", "detalhes.ementaDetalhada", "detalhes.keywords", "detalhes.uriPropPrincipal", "detalhes.uriPropAnterior", "detalhes.uriPropPosterior", "detalhes.urlInteiroTeor", "detalhes.urnFinal", "detalhes.texto", "detalhes.justificativa"}),
+				    #"detalhes.statusProposicao Expandido" = Table.ExpandRecordColumn(#"detalhes Expandido", "detalhes.statusProposicao", {"dataHora", "sequencia", "siglaOrgao", "uriOrgao", "uriUltimoRelator", "regime", "descricaoTramitacao", "codTipoTramitacao", "descricaoSituacao", "codSituacao", "despacho", "url", "ambito", "apreciacao"}, {"detalhes.statusProposicao.dataHora", "detalhes.statusProposicao.sequencia", "detalhes.statusProposicao.siglaOrgao", "detalhes.statusProposicao.uriOrgao", "detalhes.statusProposicao.uriUltimoRelator", "detalhes.statusProposicao.regime", "detalhes.statusProposicao.descricaoTramitacao", "detalhes.statusProposicao.codTipoTramitacao", "detalhes.statusProposicao.descricaoSituacao", "detalhes.statusProposicao.codSituacao", "detalhes.statusProposicao.despacho", "detalhes.statusProposicao.url", "detalhes.statusProposicao.ambito", "detalhes.statusProposicao.apreciacao"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"detalhes.statusProposicao Expandido",{{"id_proposicao", type text}, {"detalhes.id", Int64.Type}, {"detalhes.uri", type text}, {"detalhes.siglaTipo", type text}, {"detalhes.codTipo", Int64.Type}, {"detalhes.numero", Int64.Type}, {"detalhes.ano", Int64.Type}, {"detalhes.ementa", type text}, {"detalhes.dataApresentacao", type datetime}, {"detalhes.uriOrgaoNumerador", type text}, {"detalhes.statusProposicao.dataHora", type datetime}, {"detalhes.statusProposicao.sequencia", Int64.Type}, {"detalhes.statusProposicao.siglaOrgao", type text}, {"detalhes.statusProposicao.uriOrgao", type text}, {"detalhes.statusProposicao.uriUltimoRelator", type text}, {"detalhes.statusProposicao.regime", type text}, {"detalhes.statusProposicao.descricaoTramitacao", type text}, {"detalhes.statusProposicao.codTipoTramitacao", Int64.Type}, {"detalhes.statusProposicao.descricaoSituacao", type text}, {"detalhes.statusProposicao.codSituacao", Int64.Type}, {"detalhes.statusProposicao.despacho", type text}, {"detalhes.statusProposicao.url", type text}, {"detalhes.statusProposicao.ambito", type text}, {"detalhes.statusProposicao.apreciacao", type text}, {"detalhes.uriAutores", type text}, {"detalhes.descricaoTipo", type text}, {"detalhes.ementaDetalhada", type text}, {"detalhes.keywords", type text}, {"detalhes.uriPropPrincipal", type text}, {"detalhes.uriPropAnterior", type any}, {"detalhes.uriPropPosterior", type text}, {"detalhes.urlInteiroTeor", type text}, {"detalhes.urnFinal", type any}, {"detalhes.texto", type any}, {"detalhes.justificativa", type any}, {"autores", type any}, {"tramitacoes", type any}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Tipo Alterado",{"detalhes.id"}),
+				    #"autores Expandido" = Table.ExpandListColumn(#"Colunas Removidas", "autores"),
+				    #"autores Expandido1" = Table.ExpandRecordColumn(#"autores Expandido", "autores", {"uri", "nome", "codTipo", "tipo", "ordemAssinatura", "proponente"}, {"autores.uri", "autores.nome", "autores.codTipo", "autores.tipo", "autores.ordemAssinatura", "autores.proponente"}),
+				    #"tramitacoes Expandido" = Table.ExpandListColumn(#"autores Expandido1", "tramitacoes"),
+				    #"tramitacoes Expandido1" = Table.ExpandRecordColumn(#"tramitacoes Expandido", "tramitacoes", {"dataHora", "sequencia", "siglaOrgao", "uriOrgao", "uriUltimoRelator", "regime", "descricaoTramitacao", "codTipoTramitacao", "descricaoSituacao", "codSituacao", "despacho", "url", "ambito", "apreciacao"}, {"tramitacoes.dataHora", "tramitacoes.sequencia", "tramitacoes.siglaOrgao", "tramitacoes.uriOrgao", "tramitacoes.uriUltimoRelator", "tramitacoes.regime", "tramitacoes.descricaoTramitacao", "tramitacoes.codTipoTramitacao", "tramitacoes.descricaoSituacao", "tramitacoes.codSituacao", "tramitacoes.despacho", "tramitacoes.url", "tramitacoes.ambito", "tramitacoes.apreciacao"}),
+				    #"Colunas Removidas1" = Table.RemoveColumns(#"tramitacoes Expandido1",{"detalhes.uri", "id_proposicao", "detalhes.codTipo", "detalhes.numero", "detalhes.ano", "detalhes.ementa", "detalhes.dataApresentacao", "detalhes.uriOrgaoNumerador", "detalhes.statusProposicao.dataHora", "detalhes.statusProposicao.sequencia", "detalhes.statusProposicao.siglaOrgao", "detalhes.statusProposicao.uriOrgao", "detalhes.statusProposicao.uriUltimoRelator", "detalhes.statusProposicao.regime", "detalhes.statusProposicao.descricaoTramitacao", "detalhes.statusProposicao.codTipoTramitacao", "detalhes.statusProposicao.descricaoSituacao", "detalhes.statusProposicao.codSituacao", "detalhes.statusProposicao.despacho", "detalhes.statusProposicao.url", "detalhes.statusProposicao.ambito", "detalhes.statusProposicao.apreciacao", "detalhes.uriAutores", "detalhes.ementaDetalhada", "detalhes.keywords", "detalhes.uriPropPrincipal", "detalhes.uriPropAnterior", "detalhes.uriPropPosterior", "detalhes.urlInteiroTeor", "detalhes.urnFinal", "detalhes.texto", "detalhes.justificativa", "autores.uri", "autores.nome", "autores.codTipo", "autores.tipo", "autores.ordemAssinatura", "autores.proponente", "tramitacoes.dataHora", "tramitacoes.sequencia", "tramitacoes.siglaOrgao", "tramitacoes.uriOrgao", "tramitacoes.uriUltimoRelator", "tramitacoes.regime", "tramitacoes.descricaoTramitacao", "tramitacoes.codTipoTramitacao", "tramitacoes.descricaoSituacao", "tramitacoes.codSituacao", "tramitacoes.despacho", "tramitacoes.url", "tramitacoes.ambito", "tramitacoes.apreciacao"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Colunas Removidas1", {"detalhes.siglaTipo"}),
+				    #"Índice Adicionado" = Table.AddIndexColumn(#"Duplicatas Removidas", "Índice", 0, 1, Int64.Type),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Índice Adicionado",{{"Índice", "idTipo"}}),
+				    #"Colunas Reordenadas" = Table.ReorderColumns(#"Colunas Renomeadas",{"idTipo", "detalhes.siglaTipo", "detalhes.descricaoTipo"}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Colunas Reordenadas",{{"detalhes.descricaoTipo", "descricaoTipo"}, {"detalhes.siglaTipo", "siglaTipo"}})
+				in
+				    #"Colunas Renomeadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

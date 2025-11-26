@@ -1,0 +1,51 @@
+relationship ff6a528d-86b5-4022-9133-2fc316ceb062
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDARIO.Data
+	toColumn: LocalDateTable_efa60fca-12fa-4f01-a117-43f909d17723.Date
+
+relationship 07924656-aa47-756d-fa89-68da39f49213
+	isActive: false
+	fromColumn: DIM_DEPUTADO.dataNascimento
+	toColumn: DIM_CALENDARIO.Data
+
+relationship 90ebafa3-9017-4748-b19a-2afeaf91956d
+	isActive: false
+	fromColumn: DIM_DEPUTADO.dataFalecimento
+	toColumn: DIM_CALENDARIO.Data
+
+relationship 4b465f8f-fc2c-41bc-8bfb-304eeca8ca03
+	fromColumn: FAT_DESPESA.dataDocumento
+	toColumn: DIM_CALENDARIO.Data
+
+relationship 713adbc4-f9ef-fadb-b760-478d78435cb3
+	fromColumn: FAT_DESPESA.idDeputado
+	toColumn: DIM_DEPUTADO.id
+
+relationship AutoDetected_ae535a73-8bc6-4cb8-874e-ffd7edc47718
+	fromColumn: DIM_DEPUTADO.idUf
+	toColumn: DIM_ESTADO.idUf
+
+relationship 1e903c0b-1552-4f12-3edb-a745385b3184
+	fromColumn: DIM_DEPUTADO.idPartido
+	toColumn: DIM_PARTIDO.idPartido
+
+relationship AutoDetected_66cac98e-ccd5-43b6-a7de-898e323a0c29
+	fromColumn: FAT_DESPESA.tipoDespesa
+	toColumn: DIM_TIPO_DESPESA.tipoDespesa
+
+relationship AutoDetected_8f647b1b-91f9-4066-8cfb-1ce7ccee29e3
+	fromColumn: FAT_DESPESA.idFornecedor
+	toColumn: DIM_FORNECEDOR.idFornecedor
+
+relationship AutoDetected_6260d741-db58-4938-92a8-3039ac62704b
+	fromColumn: FAT_PROPOSICAO.idTipo
+	toColumn: DIM_TIPO_PROPOSICAO.idTipo
+
+relationship AutoDetected_a337aaf6-c5de-48c6-b3d6-89a05f436f62
+	fromColumn: FAT_PROPOSICAO.'autores.nome'
+	toColumn: DIM_DEPUTADO.'ultimoStatus.nome'
+
+relationship 15266ff8-d1ec-763a-9bee-17cbbe0e165a
+	fromColumn: FAT_PROPOSICAO.'Data Apresentação'
+	toColumn: DIM_CALENDARIO.Data
+

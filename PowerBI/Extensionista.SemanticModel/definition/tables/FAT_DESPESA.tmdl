@@ -1,0 +1,266 @@
+table FAT_DESPESA
+	lineageTag: aa7196d1-3e56-431a-9736-af40c118b79a
+
+	measure 'Despesa Total' = SUM('FAT_DESPESA'[valorLiquido])
+		formatString: "R$"#,0.00;-"R$"#,0.00;"R$"#,0.00
+		lineageTag: 89ec0388-ac8b-423a-9e3f-08bf99ce03d1
+
+		annotation PBI_FormatHint = {"currencyCulture":"es-BR"}
+
+	measure 'Rank Gasto' =
+			
+			RANKX(
+			    ALL('DIM_DEPUTADO'[nomeCivil]), -- 1. Itera sobre a lista completa de deputados
+			    CALCULATE(SUM('FAT_DESPESA'[valorLiquido])), -- 2. Expressão: O gasto total de cada deputado
+			    ,
+			    DESC, -- 3. Ordem: Descendente (o maior gasto será Rank 1)
+			    DENSE -- 4. Tipo de Rank: 'DENSE' dá o mesmo rank para valores iguais
+			)
+		formatString: 0
+		lineageTag: 88b06f8f-0f14-4a25-9941-a5994e4e218e
+
+	measure 'Total Gasto Top 10 Deputados' =
+			
+			CALCULATE(
+			    SUM(FAT_DESPESA[valorLiquido]),
+			    -- 1. Cria uma tabela virtual de todos os deputados classificados:
+			    KEEPFILTERS(
+			        TOPN(
+			            10, -- N = 10 (Você pode usar uma variável ou parâmetro aqui)
+			            ALL(DIM_DEPUTADO[nomeCivil]), -- Tabela: Todos os deputados
+			            CALCULATE(SUM(FAT_DESPESA[valorLiquido])), -- Critério: O gasto total
+			            DESC -- Ordem: Descendente (os maiores)
+			        )
+			    )
+			)
+		lineageTag: 352dfa16-0e43-49b0-9b13-6d36bd9e2898
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gasto Top 10 por Tipo' =
+			
+			IF(
+			    [Rank Gasto] <= 10, -- Verifica se o deputado atual está no Top 10
+			    SUM('FAT_DESPESA'[valorLiquido]), -- Se sim, retorna o gasto total
+			    BLANK() -- Se não, retorna vazio
+			)
+		lineageTag: 9995d345-ca82-42c2-a0cf-c787d5d3eac9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Gasto Total Top 10 Deputados Por Tipo' = ```
+			
+			VAR Top10Deputados = 
+			    -- 1. Cria uma tabela virtual contendo APENAS os 10 nomes de deputados mais gastadores
+			    TOPN(
+			        10, 
+			        ALL('DIM_DEPUTADO'[nomeCivil]), -- Considera todos os deputados para ranking
+			        CALCULATE(SUM('FAT_DESPESA'[valorLiquido])) -- Classifica pelo gasto total
+			    )
+			
+			RETURN
+			    -- 2. Calcula a soma dos gastos, aplicando o filtro de Top 10
+			    CALCULATE(
+			        SUM('FAT_DESPESA'[valorLiquido]),
+			        Top10Deputados -- Aplica o filtro de nomes de deputados criado acima
+			    )
+			```
+		lineageTag: e593c32a-83d6-4c8c-b0e1-0672c2fa38dc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ano
+		dataType: int64
+		formatString: 0
+		lineageTag: 9b35ce96-da01-46c5-a0bd-427be66e6548
+		summarizeBy: sum
+		sourceColumn: ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column mes
+		dataType: int64
+		formatString: 0
+		lineageTag: 54ff11aa-d40e-48bb-a6d2-7d97bac15132
+		summarizeBy: sum
+		sourceColumn: mes
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipoDespesa
+		dataType: string
+		lineageTag: e646600e-3f34-4ec3-ac25-a85d70044975
+		summarizeBy: none
+		sourceColumn: tipoDespesa
+
+		annotation SummarizationSetBy = Automatic
+
+	column codDocumento
+		dataType: string
+		lineageTag: 05112103-d620-482d-beef-b6d986cf9987
+		summarizeBy: none
+		sourceColumn: codDocumento
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipoDocumento
+		dataType: string
+		lineageTag: acf2c9e6-4306-420e-86f5-0170c3b57b31
+		summarizeBy: none
+		sourceColumn: tipoDocumento
+
+		annotation SummarizationSetBy = Automatic
+
+	column codTipoDocumento
+		dataType: string
+		lineageTag: fc818134-26e7-4d31-97fd-d7aca63f330e
+		summarizeBy: none
+		sourceColumn: codTipoDocumento
+
+		annotation SummarizationSetBy = Automatic
+
+	column dataDocumento
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: e29f072d-9a16-46ff-8d03-fcc752422900
+		summarizeBy: none
+		sourceColumn: dataDocumento
+
+		annotation SummarizationSetBy = Automatic
+
+	column numDocumento
+		dataType: string
+		lineageTag: a24416b9-7e88-49a3-8fef-339821a7f7c2
+		summarizeBy: none
+		sourceColumn: numDocumento
+
+		annotation SummarizationSetBy = Automatic
+
+	column valorDocumento
+		dataType: double
+		lineageTag: 9c52e366-60e5-4a2c-ae03-0caad3a1d562
+		summarizeBy: sum
+		sourceColumn: valorDocumento
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column urlDocumento
+		dataType: string
+		lineageTag: 37c3ac47-5888-4f7d-8b54-ace10da39b03
+		summarizeBy: none
+		sourceColumn: urlDocumento
+
+		annotation SummarizationSetBy = Automatic
+
+	column nomeFornecedor
+		dataType: string
+		lineageTag: 48f96fbe-b107-446d-b964-bf12148c4c25
+		summarizeBy: none
+		sourceColumn: nomeFornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnpjCpfFornecedor
+		dataType: string
+		lineageTag: da22bde7-e2ca-4755-bfda-4efeb6279d03
+		summarizeBy: none
+		sourceColumn: cnpjCpfFornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column valorLiquido
+		dataType: double
+		lineageTag: f1679718-85ec-4abd-b6b0-5b987a2c3df9
+		summarizeBy: sum
+		sourceColumn: valorLiquido
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column valorGlosa
+		dataType: int64
+		formatString: 0
+		lineageTag: fab4c7f5-9225-4b4a-a727-a802b2c9ab82
+		summarizeBy: sum
+		sourceColumn: valorGlosa
+
+		annotation SummarizationSetBy = Automatic
+
+	column numRessarcimento
+		dataType: int64
+		formatString: 0
+		lineageTag: a8a378ae-a943-45e2-a14d-769cf342a4bb
+		summarizeBy: sum
+		sourceColumn: numRessarcimento
+
+		annotation SummarizationSetBy = Automatic
+
+	column codLote
+		dataType: int64
+		formatString: 0
+		lineageTag: a553916e-5ed2-404b-be72-60022c600b39
+		summarizeBy: sum
+		sourceColumn: codLote
+
+		annotation SummarizationSetBy = Automatic
+
+	column parcela
+		dataType: int64
+		formatString: 0
+		lineageTag: 5e480288-46ac-4211-ae54-0d904e43a546
+		summarizeBy: sum
+		sourceColumn: parcela
+
+		annotation SummarizationSetBy = Automatic
+
+	column idDeputado
+		dataType: int64
+		formatString: 0
+		lineageTag: adff9403-4b3d-44ed-aae0-d42bee99d24e
+		summarizeBy: none
+		sourceColumn: idDeputado
+
+		annotation SummarizationSetBy = Automatic
+
+	column idTipoDespesa
+		dataType: int64
+		formatString: 0
+		lineageTag: 97573c19-021b-45a0-9a48-3876e204434b
+		summarizeBy: sum
+		sourceColumn: idTipoDespesa
+
+		annotation SummarizationSetBy = Automatic
+
+	column idFornecedor
+		dataType: int64
+		formatString: 0
+		lineageTag: 5ec2d765-cc52-4c9f-b4cd-9c16946b6879
+		summarizeBy: none
+		sourceColumn: idFornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FAT_DESPESA = m
+		mode: import
+		source =
+				let
+				    Fonte = Json.Document(File.Contents("C:\Users\MariaJuliaEscobarCor\Downloads\CPA\Untitled Folder 1\despesas_unificadas.json")),
+				    #"Convertido para Tabela" = Table.FromList(Fonte, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Column1 Expandido" = Table.ExpandRecordColumn(#"Convertido para Tabela", "Column1", {"ano", "mes", "tipoDespesa", "codDocumento", "tipoDocumento", "codTipoDocumento", "dataDocumento", "numDocumento", "valorDocumento", "urlDocumento", "nomeFornecedor", "cnpjCpfFornecedor", "valorLiquido", "valorGlosa", "numRessarcimento", "codLote", "parcela", "idDeputado"}, {"ano", "mes", "tipoDespesa", "codDocumento", "tipoDocumento", "codTipoDocumento", "dataDocumento", "numDocumento", "valorDocumento", "urlDocumento", "nomeFornecedor", "cnpjCpfFornecedor", "valorLiquido", "valorGlosa", "numRessarcimento", "codLote", "parcela", "idDeputado"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Column1 Expandido",{{"ano", Int64.Type}, {"mes", Int64.Type}, {"tipoDespesa", type text}, {"codDocumento", type text}, {"tipoDocumento", type text}, {"codTipoDocumento", type text}, {"dataDocumento", type datetime}, {"numDocumento", type text}, {"valorDocumento", type number}, {"urlDocumento", type text}, {"nomeFornecedor", type text}, {"cnpjCpfFornecedor", type text}, {"valorLiquido", type number}, {"valorGlosa", Int64.Type}, {"numRessarcimento", Int64.Type}, {"codLote", Int64.Type}, {"parcela", Int64.Type}, {"idDeputado", Int64.Type}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Tipo Alterado", {"tipoDespesa"}, DIM_TIPO_DESPESA, {"tipoDespesa"}, "DIM_TIPO_DESPESA", JoinKind.LeftOuter),
+				    #"DIM_TIPO_DESPESA Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "DIM_TIPO_DESPESA", {"idTipoDespesa"}, {"DIM_TIPO_DESPESA.idTipoDespesa"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"DIM_TIPO_DESPESA Expandido",{{"DIM_TIPO_DESPESA.idTipoDespesa", "idTipoDespesa"}}),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Colunas Renomeadas", {"cnpjCpfFornecedor"}, DIM_FORNECEDOR, {"cnpjCpfFornecedor"}, "DIM_FORNECEDOR", JoinKind.LeftOuter),
+				    #"DIM_FORNECEDOR Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas1", "DIM_FORNECEDOR", {"idFornecedor"}, {"DIM_FORNECEDOR.Índice"}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"DIM_FORNECEDOR Expandido",{{"DIM_FORNECEDOR.Índice", "idFornecedor"}})
+				in
+				    #"Colunas Renomeadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+

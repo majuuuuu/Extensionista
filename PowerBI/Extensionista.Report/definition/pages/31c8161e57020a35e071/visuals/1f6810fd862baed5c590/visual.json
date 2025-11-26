@@ -1,0 +1,204 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "1f6810fd862baed5c590",
+  "position": {
+    "x": 628.80862385498688,
+    "y": 249.63314562188211,
+    "z": 2000,
+    "height": 343.93518028706592,
+    "width": 630.409096855074,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "esriVisual",
+    "query": {
+      "queryState": {
+        "Location": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DIM_ESTADO"
+                    }
+                  },
+                  "Property": "Unidade Federativa"
+                }
+              },
+              "queryRef": "DIM_ESTADO.Unidade Federativa",
+              "nativeQueryRef": "Unidade Federativa"
+            }
+          ]
+        },
+        "Size": {
+          "projections": [
+            {
+              "field": {
+                "Aggregation": {
+                  "Expression": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Entity": "DIM_DEPUTADO"
+                        }
+                      },
+                      "Property": "id"
+                    }
+                  },
+                  "Function": 2
+                }
+              },
+              "queryRef": "Count(deputados_detalhados.id)",
+              "nativeQueryRef": "Contagem de id"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Aggregation": {
+                "Expression": {
+                  "Column": {
+                    "Expression": {
+                      "SourceRef": {
+                        "Entity": "DIM_DEPUTADO"
+                      }
+                    },
+                    "Property": "id"
+                  }
+                },
+                "Function": 2
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "mapControls": [
+        {
+          "properties": {}
+        }
+      ],
+      "featureInfo": [
+        {
+          "properties": {
+            "selectedLayerKeys": {
+              "expr": {
+                "Literal": {
+                  "Value": "''"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapObject": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"portalUrl\":\"https://www.arcgis.com\",\"version\":\"2.4\",\"isAuthorNamedUser\":false,\"map\":{\"webmap\":{\"is3d\":false,\"itemData\":{\"operationalLayers\":[{\"id\":\"MyLayer\",\"visibility\":true,\"opacity\":1,\"minScale\":0,\"maxScale\":0,\"refreshInterval\":0,\"title\":\"Unidade Federativa\",\"objectIdField\":\"objectId\",\"type\":\"DataLayer\",\"layerType\":\"ArcGISFeatureLayer\",\"popupEnabled\":true,\"disablePopup\":false,\"visible\":true,\"geometryType\":\"point\",\"source\":[{\"attributes\":{},\"geometry\":{\"x\":0,\"y\":0,\"type\":\"point\",\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100}}}],\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100},\"esriMaps\":{\"isTimeEnabled\":\"false\",\"clusterInfo\":null,\"lastShareInfo\":null},\"timeInfo\":null,\"showLabels\":true,\"featureCollection\":{\"layers\":[{\"popupInfo\":{\"popupElements\":[{\"type\":\"fields\",\"fieldInfos\":[{\"fieldName\":\"Count_deputados_detalhados_id_\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"Contagem de id\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"DIM_ESTADO_Unidade_20Federativa\",\"isEditable\":true,\"label\":\"Unidade Federativa\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"ROW_ID\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"ROW_ID\",\"tooltip\":\"\",\"visible\":true}]}],\"expressionInfos\":[],\"fieldInfos\":[{\"fieldName\":\"Count_deputados_detalhados_id_\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"Contagem de id\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"DIM_ESTADO_Unidade_20Federativa\",\"isEditable\":true,\"label\":\"Unidade Federativa\",\"tooltip\":\"\",\"visible\":true},{\"fieldName\":\"ROW_ID\",\"format\":{\"digitSeparator\":true,\"places\":0},\"isEditable\":true,\"label\":\"ROW_ID\",\"tooltip\":\"\",\"visible\":true}],\"title\":\"\",\"actions\":[]},\"effect\":null,\"layerDefinition\":{\"objectIdField\":\"objectId\",\"fields\":[{\"alias\":\"objectId\",\"editable\":false,\"name\":\"objectId\",\"nullable\":false,\"type\":\"esriFieldTypeOID\"},{\"alias\":\"Contagem de id\",\"editable\":true,\"name\":\"Count_deputados_detalhados_id_\",\"nullable\":true,\"type\":\"esriFieldTypeInteger\"},{\"alias\":\"Unidade Federativa\",\"editable\":true,\"length\":-1,\"name\":\"DIM_ESTADO_Unidade_20Federativa\",\"nullable\":true,\"type\":\"esriFieldTypeString\"},{\"alias\":\"ROW_ID\",\"editable\":true,\"name\":\"ROW_ID\",\"nullable\":true,\"type\":\"esriFieldTypeInteger\"}],\"geometryType\":\"point\",\"drawingInfo\":{\"renderer\":{\"authoringInfo\":{\"classificationMethod\":\"esriClassifyNaturalBreaks\",\"type\":\"classedSize\"},\"type\":\"classBreaks\",\"visualVariables\":[],\"classBreakInfos\":[{\"classMaxValue\":12,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":3,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}},{\"classMaxValue\":18,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":9.75,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}},{\"classMaxValue\":31,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":16.5,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}},{\"classMaxValue\":53,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":23.25,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}},{\"classMaxValue\":70,\"symbol\":{\"type\":\"esriSMS\",\"color\":[250,168,63,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":30,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,204],\"width\":1,\"style\":\"esriSLSSolid\"}}}],\"defaultLabel\":\"Outro\",\"defaultSymbol\":{\"type\":\"esriSMS\",\"color\":[128,128,128,255],\"angle\":0,\"xoffset\":0,\"yoffset\":0,\"size\":3,\"style\":\"esriSMSCircle\",\"outline\":{\"type\":\"esriSLS\",\"color\":[255,255,255,64],\"width\":0.75,\"style\":\"esriSLSSolid\"}},\"field\":\"Count_deputados_detalhados_id_\",\"minValue\":8},\"transparency\":0},\"featureReduction\":null,\"locationProvider\":{\"type\":\"cachedgeocode\",\"sourceCountry\":\"world\",\"targetSR\":102100,\"lookupFields\":[{\"lookupField\":\"SingleLine\",\"outField\":\"DIM_ESTADO_Unidade_20Federativa\"}],\"geocodeServiceUrl\":\"https://utility.arcgis.com/usrsvcs/appservices/L7zl5sI0W1hBHWRI/rest/services/World/GeocodeServer\"},\"minScale\":0,\"maxScale\":0,\"definitionExpression\":null,\"templates\":[{\"name\":\"New Feature\",\"description\":\"\",\"prototype\":{\"attributes\":{\"Count_deputados_detalhados_id_\":null,\"DIM_ESTADO_Unidade_20Federativa\":null,\"ROW_ID\":null}}}],\"elevationInfo\":null,\"name\":\"Unidade Federativa\",\"type\":\"DataLayer\",\"queryParameters\":{\"tableId\":\"\"}},\"featureSet\":{\"features\":[{\"attributes\":{},\"geometry\":{\"x\":0,\"y\":0,\"type\":\"point\",\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100}}}]}}]}}],\"tables\":[],\"baseMap\":{\"baseMapLayers\":[{\"id\":\"VectorTile_1970\",\"opacity\":1,\"title\":\"Light Gray Base\",\"visibility\":true,\"layerType\":\"VectorTileLayer\",\"styleUrl\":\"https://cdn.arcgis.com/sharing/rest/content/items/291da5eab3a0412593b66d384379f89f/resources/styles/root.json\"},{\"id\":\"VectorTile_7117\",\"opacity\":1,\"title\":\"Light Gray Reference\",\"visibility\":true,\"layerType\":\"VectorTileLayer\",\"styleUrl\":\"https://cdn.arcgis.com/sharing/rest/content/items/1768e8369a214dfab4e2167d5c5f2454/resources/styles/root.json\",\"isReference\":true}],\"title\":\"Light Gray Canvas\"},\"version\":\"2.26\",\"authoringApp\":\"ArcGIS for Power BI\",\"bookmarks\":[],\"initialState\":{\"viewpoint\":{\"targetGeometry\":{\"spatialReference\":{\"latestWkid\":3857,\"wkid\":102100},\"xmin\":-11958509.412166514,\"ymin\":-4603057.633702506,\"xmax\":36600.56256651506,\"ymax\":1365145.5348025076}}}}},\"webmapExtensions\":{\"format\":2}},\"embedCheckPassed\":false}'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "mapTools": [
+        {
+          "properties": {
+            "basemaps": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "geometryCache": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "'{\"key\":\"cachedgeocode@@world\",\"compressionMethod\":\"pako\",\"data\":\"H4sIAAAAAAAAA61XwW4rNwz8lWLPeYJIiRSVcy+99tIWRQ+bZBP4vTgx1gaK4iH/3tFqHRi1Vige7EMSGPaEHA6Hs9+H42E87cbXX6fnaZ7eHqfh/vvwOp6m4+m3b7un4T6YpLvh7+Vv8kzef9wNL9P7fjrNu+k43P+Jz78/AuT97Zefh/th/nr308M8Hnevw+cH/ymovw/3X6J5VYkuB7ob/sAbrOzJR5eY08fH3X+wHsYelsYYvblsGjxeKyKFnE28Y5W8vH0Nezx0YCVyFM5Ok/gLWJYYIplTsWvA/UuvzpwCiHOollcsn0GlOrNIubzCNeRh7tWYomQGa17O5VkgInEceEHM14jzsYeYgxCLk5ilIoaY0Lx3Rt42EA9Tr23mbMaOzPvl+ytuxrBCckEjLfQ26Hzs4i7fiy5KKfBzPqIpKd5lXqq1hppe3nsECIdCKdt5Sig8S06gFL/aBOx7+hQfvZh3mHRavn8uNGggZ6Gq1ktDn489WKWsRtC3Xco+EIQLAjyLbsj+0K02+5Qku6i0DipC8JackFSeWwt6eOhNCoOihFZJ6iqtwCnHpOwg/qVS3yB26mkV65liVqifVk4Zr8TmksTlP1Gj1LFHarIYLYA9iuvwPcjV7IxzZbm1ortekQl4GhxGpRdjMsaCqQsc4yJTbhTadSdUShF7TlYrBToH79RXwBwbhY77XuuUk7fiJbrOXTmn7OBKcRmPjw3E117rUJJPERIXPbOpAUN3WYy32n567rUd2JcBiwR/sUuUUg6BsaKktfvGjp46uMrYboXJaabLGxIlZK8ONW+66VuXAcwZEtfMdOl9Co/14oi4iqqxpPue8pW8hOSdZDsrH7ZvAuVHqzvWUP7c8z3wJjhtLqXq8mdmy0oJ3Fsoby3psWvTpMaqxf5thYRkLQVwXTnJrVJ7Vw+Ghy7JKVHVFY6dz+gdpFaHasjq1DX9YNh4KlfjXCM0C2vBj3pHtZUebpQa5q+3SEjXGFjoDD9zWWNtojaH045pQtTQTCmxQdb+5RoNArAAf5BSxkVnGGJQwTCSbd2buWU3iGeccRXPQYPhDWjRJc11tRt1HaYGkkVYHw5hyRPn6ZGZwbqwDQtUM1vcNFPMx2s48CsZOoWvhpV5Ld8u7rUsU8Oi9405IpNoCSDFjC52MyQNmKBTTgth1jpNLTjLCAe4HTggdSUL2RQBFMJWwnto4JCHOJGJHCnVBhkNR8/Oa+KtQPvyfqvUdXy8RoIMo4DikNY7uE4Q/fmyCTXDtMLWYXfT6z01BPGlBMGUkPeNLgZZRArPcuaFN2QxNlr9sbAyNvwPxy/gnjiO9apaqnL1gRkPVpCt39iicd8wClgKTAoq58pObTJ7Uy5LFLdMf2wa6o8Enafn22aHuaFZLn4H9vEoXLNMtTFJ2Fa4kVpdgUaf+5Y0cGjYEp5ikY0uogJhWSNclzjX49bodn67cfQ4NW6JFm0t+aK6fx1GLI4IxeEBPG3ckmPDaKn4TcnpoT4TrqPNEkLRL4jQDe5OLfeACeGZNyNS2OdZgpObT+Whize0O7fO0v/KFn99/At+ZwrzMBEAAA==\"}'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Distribuição por UF'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "12D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualHeader": [
+        {
+          "properties": {
+            "background": {
+              "solid": {
+                "color": {
+                  "expr": {
+                    "ThemeDataColor": {
+                      "ColorId": 0,
+                      "Percent": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "border": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "radius": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "parentGroupName": "01bdf391719e7ba5c160"
+}

@@ -1,0 +1,51 @@
+table Tabela
+	lineageTag: f5786a75-058d-4b49-ac3a-e6f22cd20764
+
+	measure '$ Despesa Total' = SUM('FAT_DESPESA'[valorLiquido])
+		lineageTag: 189f211b-8b98-4afc-b40b-40a7e581a66d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Gasto Médio por Deputado' =
+			
+			DIVIDE(
+			    [$ Despesa Total],
+			    DISTINCTCOUNT(FAT_DESPESA[idDeputado])
+			)
+		lineageTag: 20033405-9c54-41de-b32a-85d226dcb695
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '$ Gasto Médio em Fornecedor' =
+			
+			DIVIDE(
+			    [$ Despesa Total],
+			    DISTINCTCOUNT(FAT_DESPESA[cnpjCpfFornecedor])
+			)
+		lineageTag: 5f265938-815b-4b42-8bbc-2f818403c04a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Total de Proposições' = DISTINCTCOUNT('FAT_PROPOSICAO'[detalhes.id])
+		formatString: 0
+		lineageTag: fee7efd0-496c-484a-95ff-964e1e4af643
+
+	column Column
+		formatString: 0
+		lineageTag: cc5c1ff2-e9bb-4359-a063-7ad4d508fbf7
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Tabela = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = f5ce204da2e3494088be6d5950454f52
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":null}
+
+	annotation 277cc1b9-af89-4597-8e15-cacc25c0886b = Para usar caracteres especiais em um nome de tabela calculado, feche o nome completo com colchetes ( [] ) e adicione ] a quaisquer colchetes de fechamento no nome.
+

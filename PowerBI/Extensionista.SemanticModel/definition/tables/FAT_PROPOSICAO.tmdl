@@ -1,0 +1,250 @@
+table FAT_PROPOSICAO
+	lineageTag: 3f9814a8-27c9-4599-8863-40ecc83db8d1
+
+	measure 'Proposicoes Feitas Pelo Top 10 Deputados (Produtividade)' = ```
+			
+			CALCULATE(
+			    COUNT(FAT_PROPOSICAO[id_proposicao]),
+			    
+			    KEEPFILTERS(
+			        TOPN(
+			            10, 
+			            ALL(DIM_DEPUTADO[nomeCivil]), 
+			            
+			            CALCULATE(COUNT(FAT_PROPOSICAO[id_proposicao])), 
+			            DESC 
+			        )
+			    )
+			)
+			```
+		formatString: 0
+		lineageTag: 93717170-ea4d-4a56-8480-01e2f74a3372
+
+	column id_proposicao
+		dataType: string
+		lineageTag: ccd7aea1-78df-4456-8198-049924e2d27e
+		summarizeBy: none
+		sourceColumn: id_proposicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'detalhes.id'
+		dataType: string
+		lineageTag: 89cd6b88-8262-4abd-998a-d5563475492a
+		summarizeBy: none
+		sourceColumn: detalhes.id
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'detalhes.uri'
+		dataType: string
+		lineageTag: ceeab552-f044-4d48-a9d3-d4d24c75f649
+		summarizeBy: none
+		sourceColumn: detalhes.uri
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'detalhes.numero'
+		dataType: string
+		lineageTag: 57ff51b9-fec7-49cb-8600-54560018de93
+		summarizeBy: none
+		sourceColumn: detalhes.numero
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'detalhes.ano'
+		dataType: string
+		lineageTag: fb3ef4ab-cbe1-472b-88d1-38f86ab59042
+		summarizeBy: none
+		sourceColumn: detalhes.ano
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'detalhes.ementa'
+		dataType: string
+		lineageTag: 65e03f82-575e-434b-b9a0-553c61421083
+		summarizeBy: none
+		sourceColumn: detalhes.ementa
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'detalhes.dataApresentacao'
+		dataType: string
+		lineageTag: 322e555d-682b-4326-ac2b-aaa7ab90f1cf
+		summarizeBy: none
+		sourceColumn: detalhes.dataApresentacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'detalhes.statusProposicao'
+		dataType: string
+		lineageTag: 839b6872-a3a2-4760-8077-8c0d7eb6ee6c
+		summarizeBy: none
+		sourceColumn: detalhes.statusProposicao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'autores.uri'
+		dataType: string
+		lineageTag: 931dbea3-ab2c-4182-9002-c588307e6c79
+		summarizeBy: none
+		sourceColumn: autores.uri
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'autores.nome'
+		dataType: string
+		lineageTag: 2cd209e8-3e8d-4f48-a337-b1d5cc54fd11
+		summarizeBy: none
+		sourceColumn: autores.nome
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'autores.codTipo'
+		dataType: string
+		lineageTag: a89e9268-9fd9-4cd4-a199-6fe15e54b70c
+		summarizeBy: none
+		sourceColumn: autores.codTipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'autores.tipo'
+		dataType: string
+		lineageTag: ab07e46e-8ea5-47ca-abcc-9910fe06707c
+		summarizeBy: none
+		sourceColumn: autores.tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'autores.ordemAssinatura'
+		dataType: string
+		lineageTag: d0a458d1-8266-421e-91af-ce1952abeaeb
+		summarizeBy: none
+		sourceColumn: autores.ordemAssinatura
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'autores.proponente'
+		dataType: string
+		lineageTag: cc1def2d-f4ca-4e4f-927d-eeb5e217562a
+		summarizeBy: none
+		sourceColumn: autores.proponente
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tramitacoes.siglaOrgao'
+		dataType: string
+		lineageTag: 399bc57d-fe67-427f-8d3b-540b38f527a3
+		summarizeBy: none
+		sourceColumn: tramitacoes.siglaOrgao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tramitacoes.descricaoTramitacao'
+		dataType: string
+		lineageTag: 73ec2eae-d032-49b9-869c-4f2f6966773a
+		summarizeBy: none
+		sourceColumn: tramitacoes.descricaoTramitacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tramitacoes.descricaoSituacao'
+		dataType: string
+		lineageTag: 40bf25ba-0a91-409e-8173-e744de38c639
+		summarizeBy: none
+		sourceColumn: tramitacoes.descricaoSituacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tramitacoes.codSituacao'
+		dataType: string
+		lineageTag: 41b930d3-274d-46f1-8e7b-e30e28d2d79d
+		summarizeBy: none
+		sourceColumn: tramitacoes.codSituacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tramitacoes.ambito'
+		dataType: string
+		lineageTag: 2f999301-ad25-451f-9d79-724826cdb306
+		summarizeBy: none
+		sourceColumn: tramitacoes.ambito
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'tramitacoes.apreciacao'
+		dataType: string
+		lineageTag: 5e20d756-7f1f-46ba-9de7-9e41ebdceb2d
+		summarizeBy: none
+		sourceColumn: tramitacoes.apreciacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column idDeputado
+		dataType: int64
+		formatString: 0
+		lineageTag: ef9eb7b9-e975-450a-88c1-f64a852477f9
+		summarizeBy: sum
+		sourceColumn: idDeputado
+
+		annotation SummarizationSetBy = Automatic
+
+	column idTipo
+		dataType: int64
+		formatString: 0
+		lineageTag: 69e40e64-4cc7-4137-a635-ba0e57892186
+		summarizeBy: none
+		sourceColumn: idTipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Data Apresentação' = ```
+			
+			    -- 1. Extrai apenas a parte da data (os 10 primeiros caracteres: YYYY-MM-DD).
+			    VAR DataTextoLimpa = LEFT(FAT_PROPOSICAO[detalhes.dataApresentacao], 10)
+			
+			    -- 2. Converte essa string de data limpa para o tipo DATE.
+			    -- DATEVALUE funciona bem com o formato 'YYYY-MM-DD'.
+			    VAR DataBase = DATEVALUE(DataTextoLimpa) 
+			    
+			    -- 3. Define o valor da hora (aqui, 00:00:00).
+			    VAR HoraPadrao = TIME(0, 0, 0)
+			    
+			    -- 4. Combina a Data com a Hora. O resultado é o tipo DATETIME.
+			    RETURN
+			        DataBase + HoraPadrao
+			```
+		formatString: Short Date
+		lineageTag: 25a1d7a5-9242-4ba9-8aaa-32763c6780ff
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FAT_PROPOSICAO = m
+		mode: import
+		source =
+				let
+				    Fonte = Json.Document(File.Contents("C:\Users\MariaJuliaEscobarCor\Downloads\proposicoes_detalhadas_UNIFICADAS.json")),
+				    #"Convertido para Tabela" = Table.FromList(Fonte, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Column1 Expandido" = Table.ExpandRecordColumn(#"Convertido para Tabela", "Column1", {"id_proposicao", "detalhes", "autores", "tramitacoes"}, {"id_proposicao", "detalhes", "autores", "tramitacoes"}),
+				    #"detalhes Expandido" = Table.ExpandRecordColumn(#"Column1 Expandido", "detalhes", {"id", "uri", "siglaTipo", "codTipo", "numero", "ano", "ementa", "dataApresentacao", "statusProposicao"}, {"detalhes.id", "detalhes.uri", "detalhes.siglaTipo", "detalhes.codTipo", "detalhes.numero", "detalhes.ano", "detalhes.ementa", "detalhes.dataApresentacao", "detalhes.statusProposicao"}),
+				    #"autores Expandido" = Table.ExpandListColumn(#"detalhes Expandido", "autores"),
+				    #"autores Expandido1" = Table.ExpandRecordColumn(#"autores Expandido", "autores", {"uri", "nome", "codTipo", "tipo", "ordemAssinatura", "proponente"}, {"autores.uri", "autores.nome", "autores.codTipo", "autores.tipo", "autores.ordemAssinatura", "autores.proponente"}),
+				    #"Linhas Filtradas" = Table.SelectRows(#"autores Expandido1", each ([autores.uri] <> null and [autores.uri] <> "https://dadosabertos.camara.leg.br/api/v2/orgaos/111" and [autores.uri] <> "https://dadosabertos.camara.leg.br/api/v2/orgaos/253" and [autores.uri] <> "https://dadosabertos.camara.leg.br/api/v2/orgaos/277" and [autores.uri] <> "https://dadosabertos.camara.leg.br/api/v2/orgaos/78") and ([autores.tipo] = "Deputado(a)")),
+				    #"tramitacoes Expandido" = Table.ExpandListColumn(#"Linhas Filtradas", "tramitacoes"),
+				    #"tramitacoes Expandido1" = Table.ExpandRecordColumn(#"tramitacoes Expandido", "tramitacoes", {"siglaOrgao", "descricaoTramitacao", "descricaoSituacao", "codSituacao", "ambito", "apreciacao"}, {"tramitacoes.siglaOrgao", "tramitacoes.descricaoTramitacao", "tramitacoes.descricaoSituacao", "tramitacoes.codSituacao", "tramitacoes.ambito", "tramitacoes.apreciacao"}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"tramitacoes Expandido1", {"autores.nome"}, DIM_DEPUTADO, {"ultimoStatus.nomeEleitoral"}, "DIM_DEPUTADO", JoinKind.LeftOuter),
+				    #"DIM_DEPUTADO Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "DIM_DEPUTADO", {"id"}, {"DIM_DEPUTADO.id"}),
+				    #"Linhas Filtradas1" = Table.SelectRows(#"DIM_DEPUTADO Expandido", each ([DIM_DEPUTADO.id] <> null)),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"Linhas Filtradas1",{{"DIM_DEPUTADO.id", "idDeputado"}}),
+				    #"Consultas Mescladas1" = Table.NestedJoin(#"Colunas Renomeadas", {"detalhes.siglaTipo"}, DIM_TIPO_PROPOSICAO, {"siglaTipo"}, "DIM_TIPO_PROPOSICAO", JoinKind.LeftOuter),
+				    #"DIM_TIPO_PROPOSICAO Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas1", "DIM_TIPO_PROPOSICAO", {"idTipo"}, {"DIM_TIPO_PROPOSICAO.idTipo"}),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"DIM_TIPO_PROPOSICAO Expandido",{{"DIM_TIPO_PROPOSICAO.idTipo", "idTipo"}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Colunas Renomeadas1",{"detalhes.siglaTipo", "detalhes.codTipo"})
+				in
+				    #"Colunas Removidas"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Exception
+

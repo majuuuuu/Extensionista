@@ -1,0 +1,50 @@
+table DIM_FORNECEDOR
+	lineageTag: acb6c1a5-0c80-49aa-8206-9628c9dee378
+
+	column nomeFornecedor
+		dataType: string
+		lineageTag: 06ffdeab-8bee-40c3-9b6c-a22e1dd10eb4
+		summarizeBy: none
+		sourceColumn: nomeFornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column cnpjCpfFornecedor
+		dataType: string
+		lineageTag: 9f26e8b3-638c-48f0-9518-96fd2b3e097a
+		summarizeBy: none
+		sourceColumn: cnpjCpfFornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	column idFornecedor
+		dataType: int64
+		formatString: 0
+		lineageTag: a0090ea8-ef68-4d7f-9a28-36d43a970ef9
+		summarizeBy: none
+		sourceColumn: idFornecedor
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_FORNECEDOR = m
+		mode: import
+		source =
+				let
+				    Fonte = Json.Document(File.Contents("C:\Users\MariaJuliaEscobarCor\Downloads\CPA\Untitled Folder 1\despesas_unificadas.json")),
+				    #"Convertido para Tabela" = Table.FromList(Fonte, Splitter.SplitByNothing(), null, null, ExtraValues.Error),
+				    #"Column1 Expandido" = Table.ExpandRecordColumn(#"Convertido para Tabela", "Column1", {"ano", "mes", "tipoDespesa", "codDocumento", "tipoDocumento", "codTipoDocumento", "dataDocumento", "numDocumento", "valorDocumento", "urlDocumento", "nomeFornecedor", "cnpjCpfFornecedor", "valorLiquido", "valorGlosa", "numRessarcimento", "codLote", "parcela", "idDeputado"}, {"ano", "mes", "tipoDespesa", "codDocumento", "tipoDocumento", "codTipoDocumento", "dataDocumento", "numDocumento", "valorDocumento", "urlDocumento", "nomeFornecedor", "cnpjCpfFornecedor", "valorLiquido", "valorGlosa", "numRessarcimento", "codLote", "parcela", "idDeputado"}),
+				    #"Tipo Alterado" = Table.TransformColumnTypes(#"Column1 Expandido",{{"ano", Int64.Type}, {"mes", Int64.Type}, {"tipoDespesa", type text}, {"codDocumento", type text}, {"tipoDocumento", type text}, {"codTipoDocumento", type text}, {"dataDocumento", type datetime}, {"numDocumento", type text}, {"valorDocumento", type number}, {"urlDocumento", type text}, {"nomeFornecedor", type text}, {"cnpjCpfFornecedor", type text}, {"valorLiquido", type number}, {"valorGlosa", Int64.Type}, {"numRessarcimento", Int64.Type}, {"codLote", Int64.Type}, {"parcela", Int64.Type}, {"idDeputado", Int64.Type}}),
+				    #"Consultas Mescladas" = Table.NestedJoin(#"Tipo Alterado", {"tipoDespesa"}, DIM_TIPO_DESPESA, {"tipoDespesa"}, "DIM_TIPO_DESPESA", JoinKind.LeftOuter),
+				    #"DIM_TIPO_DESPESA Expandido" = Table.ExpandTableColumn(#"Consultas Mescladas", "DIM_TIPO_DESPESA", {"idTipoDespesa"}, {"DIM_TIPO_DESPESA.idTipoDespesa"}),
+				    #"Colunas Renomeadas" = Table.RenameColumns(#"DIM_TIPO_DESPESA Expandido",{{"DIM_TIPO_DESPESA.idTipoDespesa", "idTipoDespesa"}}),
+				    #"Colunas Removidas" = Table.RemoveColumns(#"Colunas Renomeadas",{"mes", "ano", "tipoDespesa", "codDocumento", "tipoDocumento", "codTipoDocumento", "dataDocumento", "numDocumento", "valorDocumento", "urlDocumento", "valorLiquido", "valorGlosa", "numRessarcimento", "codLote", "parcela", "idDeputado", "idTipoDespesa"}),
+				    #"Duplicatas Removidas" = Table.Distinct(#"Colunas Removidas", {"cnpjCpfFornecedor"}),
+				    #"Índice Adicionado" = Table.AddIndexColumn(#"Duplicatas Removidas", "Índice", 0, 1, Int64.Type),
+				    #"Colunas Renomeadas1" = Table.RenameColumns(#"Índice Adicionado",{{"Índice", "idFornecedor"}})
+				in
+				    #"Colunas Renomeadas1"
+
+	annotation PBI_NavigationStepName = Navegação
+
+	annotation PBI_ResultType = Table
+
